@@ -36,7 +36,6 @@
             encryptOutput = new TextBox();
             decryptOutput = new TextBox();
             decryptInput = new TextBox();
-            keywordsOpen = new OpenFileDialog();
             keywordsPath = new TextBox();
             keywordsBtn = new Button();
             label1 = new Label();
@@ -117,12 +116,6 @@
             decryptInput.Name = "decryptInput";
             decryptInput.Size = new Size(280, 23);
             decryptInput.TabIndex = 5;
-            // 
-            // keywordsOpen
-            // 
-            keywordsOpen.FileName = "openFileDialog1";
-            keywordsOpen.Filter = "\"txt files (*.txt)|*.txt|All files (*.*)|*.*\"";
-            keywordsOpen.InitialDirectory = "%HOMEPATH%";
             // 
             // keywordsPath
             // 
@@ -223,7 +216,6 @@
         private TextBox encryptOutput;
         private TextBox decryptOutput;
         private TextBox decryptInput;
-        private OpenFileDialog keywordsOpen;
         private TextBox keywordsPath;
         private Button keywordsBtn;
         private Label label1;
