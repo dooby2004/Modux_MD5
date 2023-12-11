@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
 
@@ -16,7 +18,7 @@ namespace Modux_MD5
             decryptOutput.Update();
             try
             {
-                (Int32 code, string result) = MD5Methods.DecryptFromFile(decryptInput.Text, File.OpenRead(keywordsPath.Text));
+                (Int32 code, string result) = MD5Methods.DecryptFromFile(decryptInput.Text, File.OpenRead(keywordsPath.Text), MD5Methods.EncryptMD5);
                 switch (code)
                 {
                     case 0:
@@ -42,7 +44,7 @@ namespace Modux_MD5
 
         private void encryptBtn_Click(object sender, EventArgs e)
         {
-            encryptOutput.Text = MD5Methods.Encrypt(encryptInput.Text);
+            encryptOutput.Text = MD5Methods.Encrypt(encryptInput.Text, MD5Methods.EncryptMD5);
         }
 
         private void keywordsBtn_Click(object sender, EventArgs e)
