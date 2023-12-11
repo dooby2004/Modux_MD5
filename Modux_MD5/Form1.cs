@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Modux_MD5
@@ -15,20 +16,32 @@ namespace Modux_MD5
             decryptOutput.Update();
             try
             {
-                string[] keywords = File.ReadAllLines(keywordsPath.Text);
-                for (int i = 0; i < keywords.Length; i++)
+                // Remove Whitespace Source: https://code-maze.com/replace-whitespaces-string-csharp/
+                string hash = Regex.Replace(decryptInput.Text.ToUpper(), @"\s", string.Empty);
+                if (hash.Length == 32)
                 {
-                    if (CreateMD5(keywords[i]) == decryptInput.Text)
+                    string[] keywords = File.ReadAllLines(keywordsPath.Text);
+                    for (int i = 0; i < keywords.Length; i++)
                     {
-                        //decryptOutput.Text = keywords[i];
-                        decryptOutput.Text = keywords[i];
-                        break;
+                        if (CreateMD5(keywords[i]) == hash)
+                        {
+                            decryptOutput.Text = keywords[i];
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    decryptOutput.Text = "Invalid Hash";
                 }
             }
             catch (ArgumentException ex)
             {
                 decryptOutput.Text = "No Keywords Provided";
+            }
+            catch (FileNotFoundException ex)
+            {
+                decryptOutput.Text = "Invalid File Path";
             }
         }
 
@@ -45,7 +58,7 @@ namespace Modux_MD5
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                return Convert.ToBase64String(hashBytes);
+                return Convert.ToHexString(hashBytes);
             }
         }
 

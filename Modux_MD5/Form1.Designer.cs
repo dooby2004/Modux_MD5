@@ -96,7 +96,7 @@
             // encryptOutput
             // 
             encryptOutput.BorderStyle = BorderStyle.None;
-            encryptOutput.Location = new Point(30, 120);
+            encryptOutput.Location = new Point(15, 120);
             encryptOutput.Name = "encryptOutput";
             encryptOutput.ReadOnly = true;
             encryptOutput.Size = new Size(228, 16);
@@ -105,7 +105,7 @@
             // decryptOutput
             // 
             decryptOutput.BorderStyle = BorderStyle.None;
-            decryptOutput.Location = new Point(30, 280);
+            decryptOutput.Location = new Point(15, 280);
             decryptOutput.Name = "decryptOutput";
             decryptOutput.ReadOnly = true;
             decryptOutput.Size = new Size(228, 16);
