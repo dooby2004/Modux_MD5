@@ -159,18 +159,18 @@
             label2.AutoSize = true;
             label2.Location = new Point(30, 200);
             label2.Name = "label2";
-            label2.Size = new Size(59, 15);
+            label2.Size = new Size(65, 15);
             label2.TabIndex = 9;
-            label2.Text = "Input Text";
+            label2.Text = "Input Hash";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(30, 95);
             label3.Name = "label3";
-            label3.Size = new Size(69, 15);
+            label3.Size = new Size(75, 15);
             label3.TabIndex = 10;
-            label3.Text = "Output Text";
+            label3.Text = "Output Hash";
             // 
             // label4
             // 
@@ -213,9 +213,9 @@
             label8.AutoSize = true;
             label8.Location = new Point(435, 65);
             label8.Name = "label8";
-            label8.Size = new Size(59, 15);
+            label8.Size = new Size(65, 15);
             label8.TabIndex = 19;
-            label8.Text = "Input Text";
+            label8.Text = "Input Hash";
             // 
             // altKeywordsBtn
             // 
