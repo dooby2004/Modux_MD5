@@ -43,6 +43,15 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            altKeywordsBtn = new Button();
+            altKeywordsPath = new TextBox();
+            altDecryptInput = new TextBox();
+            altDecryptOutput = new TextBox();
+            altDecryptHeading = new Label();
+            altDecryptBtn = new Button();
             SuspendLayout();
             // 
             // encryptBtn
@@ -81,9 +90,10 @@
             decryptHeading.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             decryptHeading.Location = new Point(15, 150);
             decryptHeading.Name = "decryptHeading";
-            decryptHeading.Size = new Size(69, 15);
+            decryptHeading.Size = new Size(122, 15);
             decryptHeading.TabIndex = 0;
-            decryptHeading.Text = "Decryption";
+            decryptHeading.Text = "Keyword Decryption";
+            decryptHeading.Click += decryptHeading_Click;
             // 
             // encryptInput
             // 
@@ -180,11 +190,100 @@
             label5.TabIndex = 12;
             label5.Text = "Keywords File";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(435, 40);
+            label6.Name = "label6";
+            label6.Size = new Size(79, 15);
+            label6.TabIndex = 21;
+            label6.Text = "Keywords File";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(435, 120);
+            label7.Name = "label7";
+            label7.Size = new Size(69, 15);
+            label7.TabIndex = 20;
+            label7.Text = "Output Text";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(435, 65);
+            label8.Name = "label8";
+            label8.Size = new Size(59, 15);
+            label8.TabIndex = 19;
+            label8.Text = "Input Text";
+            // 
+            // altKeywordsBtn
+            // 
+            altKeywordsBtn.Location = new Point(755, 36);
+            altKeywordsBtn.Name = "altKeywordsBtn";
+            altKeywordsBtn.Size = new Size(45, 23);
+            altKeywordsBtn.TabIndex = 15;
+            altKeywordsBtn.Text = "Open";
+            altKeywordsBtn.UseVisualStyleBackColor = true;
+            altKeywordsBtn.Click += altKeywordsBtn_Click;
+            // 
+            // altKeywordsPath
+            // 
+            altKeywordsPath.Location = new Point(520, 36);
+            altKeywordsPath.Name = "altKeywordsPath";
+            altKeywordsPath.Size = new Size(233, 23);
+            altKeywordsPath.TabIndex = 14;
+            // 
+            // altDecryptInput
+            // 
+            altDecryptInput.Location = new Point(520, 61);
+            altDecryptInput.Name = "altDecryptInput";
+            altDecryptInput.Size = new Size(280, 23);
+            altDecryptInput.TabIndex = 16;
+            // 
+            // altDecryptOutput
+            // 
+            altDecryptOutput.BorderStyle = BorderStyle.None;
+            altDecryptOutput.Location = new Point(420, 145);
+            altDecryptOutput.Name = "altDecryptOutput";
+            altDecryptOutput.ReadOnly = true;
+            altDecryptOutput.Size = new Size(228, 16);
+            altDecryptOutput.TabIndex = 18;
+            // 
+            // altDecryptHeading
+            // 
+            altDecryptHeading.AutoSize = true;
+            altDecryptHeading.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            altDecryptHeading.Location = new Point(420, 15);
+            altDecryptHeading.Name = "altDecryptHeading";
+            altDecryptHeading.Size = new Size(167, 15);
+            altDecryptHeading.TabIndex = 13;
+            altDecryptHeading.Text = "Altered Keyword Decryption";
+            // 
+            // altDecryptBtn
+            // 
+            altDecryptBtn.Location = new Point(420, 90);
+            altDecryptBtn.Name = "altDecryptBtn";
+            altDecryptBtn.Size = new Size(75, 23);
+            altDecryptBtn.TabIndex = 17;
+            altDecryptBtn.Text = "Decrypt";
+            altDecryptBtn.UseVisualStyleBackColor = true;
+            altDecryptBtn.Click += altDecryptBtn_Click;
+            // 
             // Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(409, 311);
+            ClientSize = new Size(819, 311);
+            Controls.Add(label6);
+            Controls.Add(label7);
+            Controls.Add(label8);
+            Controls.Add(altKeywordsBtn);
+            Controls.Add(altKeywordsPath);
+            Controls.Add(altDecryptInput);
+            Controls.Add(altDecryptOutput);
+            Controls.Add(altDecryptHeading);
+            Controls.Add(altDecryptBtn);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -223,5 +322,14 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Button altKeywordsBtn;
+        private TextBox altKeywordsPath;
+        private TextBox altDecryptInput;
+        private TextBox altDecryptOutput;
+        private Label altDecryptHeading;
+        private Button altDecryptBtn;
     }
 }

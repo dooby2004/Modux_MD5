@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using Microsoft.VisualBasic.Devices;
 
 namespace Modux_MD5
 {
@@ -268,17 +269,17 @@ namespace Modux_MD5
                 return Convert.ToHexString(hashBytes);
             }
         }
-        public static (Int32, string) DecryptFromList(string input, string[] keywords, Func<byte[], byte[]> hashMethod)
+        public static (int, string) DecryptFromList(string input, string[] keywords, Func<byte[], byte[]> hashMethod)
         {
             // Remove Whitespace Source: https://code-maze.com/replace-whitespaces-string-csharp/
             string hash = Regex.Replace(input.ToUpper(), @"\s", String.Empty);
             if (hash.Length == 32)
             {
-                for (int i = 0; i < keywords.Length; i++)
+                foreach (string keyword in keywords)
                 {
-                    if (Encrypt(keywords[i], hashMethod) == hash)
+                    if (Encrypt(keyword, hashMethod) == hash)
                     {
-                        return (0, keywords[i]);
+                        return (0, keyword);
                     }
                 }
                 return (1, String.Empty);
@@ -289,7 +290,7 @@ namespace Modux_MD5
             }
         }
 
-        public static (Int32, string) DecryptFromFile(string input, Stream fileStream, Func<byte[], byte[]> hashMethod)
+        public static (int, string) DecryptFromFile(string input, Stream fileStream, Func<byte[], byte[]> hashMethod)
         {
             // Remove Whitespace Source: https://code-maze.com/replace-whitespaces-string-csharp/
             string hash = Regex.Replace(input.ToUpper(), @"\s", String.Empty);
@@ -314,5 +315,183 @@ namespace Modux_MD5
                 return (2, String.Empty);
             }
         }
+
+        public static (int, string) ForceDecrypt(string input, string[] keywords, Func<byte[], byte[]> hashMethod)
+        {
+            // Remove Whitespace Source: https://code-maze.com/replace-whitespaces-string-csharp/
+            string hash = Regex.Replace(input.ToUpper(), @"\s", String.Empty);
+            keywords = keywords.Select(x => x.ToLower()).ToArray();
+            if (hash.Length == 32)
+            {
+                for (int i = 0; i < keywords.Length; i++)
+                {
+                    for (int j = 0; j < keywords.Length; i++)
+                    {
+                        string word1 = keywords[i];
+                        string word2 = keywords[j];
+                        string[] words1 = altSpellings(word1);
+                        string[] words2 = altSpellings(word2);
+                        /*
+                        foreach (string first in words1)
+                        {
+                            foreach(string second in words2)
+                            {
+                                foreach(string symbol in symbols)
+                                {
+                                    foreach(string number in numbers)
+                                    {
+                                        string[] tests;
+                                        if (symbol == "")
+                                        {
+                                            if (number == "")
+                                            {
+                                                tests = [first + second];
+                                            }
+                                            else
+                                            {
+                                                tests = [first + second + number,
+                                                    number + first + second];
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (number == "")
+                                            {
+                                                tests = [first + second + symbol,
+                                                    first + symbol + second,
+                                                    symbol + first + second];
+                                            }
+                                            else
+                                            {
+                                                tests = [first + second + number + symbol,
+                                                    first + second + symbol + number,
+                                                    first + symbol + second + number,
+                                                    number + first + symbol + second,
+                                                    number + symbol + first + second,
+                                                    symbol + number + first + second];
+                                            }
+                                        }
+                                        foreach (string test in tests)
+                                        {
+                                            Debug.WriteLine(test);
+                                            if (Encrypt(test, hashMethod) == hash)
+                                            {
+                                                return (0, test);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        */
+                        foreach (string first in words1)
+                        {
+                            foreach (string symbol in symbols)
+                            {
+                                foreach (string number in numbers)
+                                {
+                                    string[] tests;
+                                    if (symbol == "")
+                                    {
+                                        if (number == "")
+                                        {
+                                            tests = [first];
+                                        }
+                                        else
+                                        {
+                                            tests = [first + number,
+                                                number + first];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (number == "")
+                                        {
+                                            tests = [first + symbol,
+                                                symbol + first];
+                                        }
+                                        else
+                                        {
+                                            tests = [first + number + symbol,
+                                                first + symbol + number,
+                                                symbol + first + number,
+                                                number + first + symbol,
+                                                number + symbol + first,
+                                                symbol + number + first];
+                                        }
+                                    }
+                                    foreach (string test in tests)
+                                    {
+                                        //Debug.WriteLine(test);
+                                        if (Encrypt(test, hashMethod) == hash)
+                                        {
+                                            return (0, test);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return (1, String.Empty);
+            }
+            else
+            {
+                return (2, String.Empty);
+            }
+        }
+
+        public static string[] altSpellings(string input)
+        {
+            string[] combinations = [""];
+            foreach (char character in input)
+            {
+                if (alternate.ContainsKey(character))
+                {
+                    combinations = (from x in combinations
+                                    from y in alternate[character]
+                                    select new string(x.ToCharArray().Append(y).ToArray())).ToArray();
+                }
+                else
+                {
+                    combinations = combinations.Select(x => new string(x.ToCharArray().Append(character).ToArray())).ToArray();
+                }
+            }
+            return combinations;
+        }
+
+        public static string[] symbols = ["!", "@", "$", ""];
+
+        public static string[] numbers = Enumerable.Range(0, 100).Select(x => x.ToString()).Concat(new string[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "" }).ToArray();
+
+        public static Dictionary<char, char[]> alternate = new Dictionary<char, char[]>
+        {
+            {'a', ['a','A','@','4']},
+            {'b', ['b','B']},
+            {'c', ['c','C']},
+            {'d', ['d','D']},
+            {'e', ['e','E','3']},
+            {'f', ['f','F']},
+            {'g', ['g','G','9']},
+            {'h', ['h','H','4']},
+            {'i', ['i','I','!','1','l']},
+            {'j', ['j','J']},
+            {'k', ['k','K']},
+            {'l', ['l','L','1']},
+            {'m', ['m','M']},
+            {'n', ['n','N']},
+            {'o', ['o','O','0']},
+            {'p', ['p','P','9']},
+            {'q', ['q','Q']},
+            {'r', ['r','R']},
+            {'s', ['s','S','$','5','z','Z']},
+            {'t', ['t','T','7','4']},
+            {'u', ['u','U','v','V']},
+            {'v', ['v','V','u','U']},
+            {'w', ['w','W']},
+            {'x', ['x','X']},
+            {'y', ['y','Y']},
+            {'z', ['z','Z','2','s','S']}
+        };
     }
 }
