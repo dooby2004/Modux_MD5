@@ -462,7 +462,7 @@ namespace Modux_MD5
 
         public static string[] symbols = ["!", "@", "$", ""];
 
-        public static string[] numbers = Enumerable.Range(0, 100).Select(x => x.ToString()).Concat(new string[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "" }).ToArray();
+        public static string[] numbers = Enumerable.Range(0, 100).Select(x => x.ToString()).Concat(new string[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "" }).ToArray();
 
         public static Dictionary<char, char[]> alternate = new Dictionary<char, char[]>
         {
