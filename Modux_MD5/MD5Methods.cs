@@ -22,18 +22,15 @@ namespace Modux_MD5
         {
             ulong len = Convert.ToUInt64(input.Length * 8);
             byte[] size = BitConverter.GetBytes(len);
-
             byte initial = 0x80;
             byte padding = 0x00;
-            input = input.Append(initial).ToArray();
-            int extra = Convert.ToInt32(64 - ((8 + input.Length) % 64));
-
-            var list = new List<Byte>(input.Length + extra + 8);
-            list.AddRange(input);
-            list.AddRange(Enumerable.Repeat(padding, extra));
-            list.AddRange(size);
-            byte[] padded = list.ToArray();
-            uint[] words = Enumerable.Range(0, list.Capacity / 4).Select(y => BitConverter.ToUInt32(padded, y * 4)).ToArray();
+            int extra = Convert.ToInt32(64 - ((9 + input.Length) % 64));
+            byte[] padded = new byte[input.Length + extra + 9];
+            Array.Copy(input, 0, padded, 0, input.Length);
+            Array.Copy(new byte[] { initial }, 0, padded, input.Length, 1);
+            Array.Copy(Enumerable.Repeat(padding, extra).ToArray(), 0, padded, input.Length + 1, extra);
+            Array.Copy(size, 0, padded, input.Length + extra + 1, 8);
+            uint[] words = Enumerable.Range(0, padded.Length / 4).Select(y => BitConverter.ToUInt32(padded, y * 4)).ToArray();
 
             uint a = 0x67452301;
             uint b = 0xefcdab89;
@@ -148,37 +145,23 @@ namespace Modux_MD5
         public static byte[] EncryptMD5(byte[] input)
         {
             //return System.Security.Cryptography.MD5.Create().ComputeHash(input);
-            //*
-            Form.watch1.Start();
             ulong len = Convert.ToUInt64(input.Length * 8);
             byte[] size = BitConverter.GetBytes(len);
-            //Form.watch1.Stop();
-            //Form.watch2.Start();
             byte initial = 0x80;
             byte padding = 0x00;
-            //input = input.Append(initial).ToArray();
             int extra = Convert.ToInt32(64 - ((9 + input.Length) % 64));
-            //Form.watch2.Stop();
-            //Form.watch3.Start();
             byte[] padded = new byte[input.Length + extra + 9];
             Array.Copy(input, 0, padded, 0, input.Length);
             Array.Copy(new byte[] { initial }, 0, padded, input.Length, 1);
             Array.Copy(Enumerable.Repeat(padding, extra).ToArray(), 0, padded, input.Length + 1, extra);
             Array.Copy(size, 0, padded, input.Length + extra + 1, 8);
             uint[] words = Enumerable.Range(0, padded.Length / 4).Select(y => BitConverter.ToUInt32(padded, y * 4)).ToArray();
-            //Form.watch3.Stop();
-            //Form.watch4.Start();
-            Form.watch1.Stop();
-            Form.watch2.Start();
+            
             // Source: https://en.wikipedia.org/wiki/MD5
-
             uint a = 0x67452301;
             uint b = 0xefcdab89;
             uint c = 0x98badcfe;
             uint d = 0x10325476;
-            //Form.watch4.Stop();
-            Form.watch2.Stop();
-            Form.watch3.Start();
             for (int i = 0; i < words.Length / 16; i++)
             {
                 uint[] x = new uint[16];
@@ -228,16 +211,12 @@ namespace Modux_MD5
                 c = c + cc;
                 d = d + dd;
             }
-            Form.watch3.Stop();
-            Form.watch4.Start();
             byte[] results = new byte[16];
             Array.Copy(BitConverter.GetBytes(a), 0, results, 0, 4);
             Array.Copy(BitConverter.GetBytes(b), 0, results, 4, 4);
             Array.Copy(BitConverter.GetBytes(c), 0, results, 8, 4);
             Array.Copy(BitConverter.GetBytes(d), 0, results, 12, 4);
-            Form.watch4.Stop();
             return results;
-            //*/
         }
 
         public static uint[] sines = new uint[64]

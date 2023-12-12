@@ -14,12 +14,6 @@ namespace Modux_MD5
 
         private void decryptBtn_Click(object sender, EventArgs e)
         {
-            watch1.Reset();
-            watch2.Reset();
-            watch3.Reset();
-            watch4.Reset();
-            // the code that you want to measure comes here
-
             decryptOutput.Text = String.Empty;
             decryptOutput.Update();
             try
@@ -46,15 +40,6 @@ namespace Modux_MD5
             {
                 decryptOutput.Text = "Invalid File Path";
             }
-            
-            var elapsedMs = watch1.ElapsedMilliseconds;
-            Debug.WriteLine(elapsedMs);
-            elapsedMs = watch2.ElapsedMilliseconds;
-            Debug.WriteLine(elapsedMs);
-            elapsedMs = watch3.ElapsedMilliseconds;
-            Debug.WriteLine(elapsedMs);
-            elapsedMs = watch4.ElapsedMilliseconds;
-            Debug.WriteLine(elapsedMs);
         }
 
         private void encryptBtn_Click(object sender, EventArgs e)
@@ -80,10 +65,6 @@ namespace Modux_MD5
         {
 
         }
-        public static System.Diagnostics.Stopwatch watch1 = System.Diagnostics.Stopwatch.StartNew();
-        public static System.Diagnostics.Stopwatch watch2 = System.Diagnostics.Stopwatch.StartNew();
-        public static System.Diagnostics.Stopwatch watch3 = System.Diagnostics.Stopwatch.StartNew();
-        public static System.Diagnostics.Stopwatch watch4 = System.Diagnostics.Stopwatch.StartNew();
     }
 
     
